@@ -1,0 +1,34 @@
+server:
+  port: 7575
+
+logging:
+  level:
+    root: DEBUG
+    org.springframework.web: DEBUG
+    org.springframework.security: TRACE
+    org.springframework.security.jackson2: INFO
+
+test-oidc-authorization-server:
+  client-port: 8080
+  resource-server-port: 8090
+
+  login-form-uri: /login
+
+  default-client-registration: metastable
+  default-client-registration-id: demo-oidc-client-pkce-id
+  default-client-registration-secret: demo-oidc-client-pkce-secret
+
+  with-pkce: true
+
+  test-user-username: user
+  test-user-password: password
+
+spring:
+  application:
+    name: test-oidc-authorization-server
+#  security:
+#    oauth2:
+#      resourceserver:
+#        jwt:
+#          jwk-set-uri: http://localhost:${server.port}/oauth2/jwks
+#          issuer-uri: http://localhost:${server.port}

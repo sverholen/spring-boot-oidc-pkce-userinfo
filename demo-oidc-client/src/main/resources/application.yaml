@@ -1,0 +1,46 @@
+server:
+  port: 8080
+
+logging:
+  level:
+    root: DEBUG
+    org.springframework.web: DEBUG
+    org.springframework.security: TRACE
+    org.springframework.security.jackson2: INFO
+
+test-oidc-client:
+  authorization-server-port: 7575
+  authorization-server-uri: http://auth-server:${test-oidc-client.authorization-server-port}
+  resource-server-port: 8090
+  resource-server-uri: http://localhost:${test-oidc-client.resource-server-port}
+
+  redirect-uri: http://127.0.0.1:${server.port}
+
+  default-client-registration: metastable
+  default-client-registration-id: demo-oidc-client-pkce-id
+  default-client-registration-secret: demo-oidc-client-pkce-secret
+
+  with-pkce: true
+
+spring:
+  application:
+    name: test-oidc-client
+  security:
+    oauth2:
+      client:
+        registration:
+          metastable:
+            provider: spring
+            client-id: ${test-oidc-client.default-client-registration-id}
+            client-secret: ${test-oidc-client.default-client-registration-secret}
+            scope:
+              - openid
+              - profile
+              - email
+            authorization-grant-type: authorization_code
+            redirect-uri: ${test-oidc-client.redirect-uri}/login/oauth2/code/${test-oidc-client.default-client-registration}
+            client-authentication-method: client_secret_post
+        provider:
+          spring:
+            issuer-uri: ${test-oidc-client.authorization-server-uri}
+            user-name-attribute: name

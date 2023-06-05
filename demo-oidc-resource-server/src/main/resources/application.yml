@@ -1,0 +1,21 @@
+server:
+  port: 8090
+
+logging:
+  level:
+    root: DEBUG
+    org.springframework.web: DEBUG
+    org.springframework.security: TRACE
+    org.springframework.security.jackson2: INFO
+
+spring:
+  application:
+    name: test-oidc-resource-server
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:7575
+          jwk-set-uri: http://localhost:7575/oauth2/jwks
